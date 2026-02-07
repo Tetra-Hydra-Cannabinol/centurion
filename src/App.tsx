@@ -1,50 +1,130 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/core";
-import "./App.css";
+import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { TitleBar } from './components/TitleBar';
+import { TabNav, type TabId } from './components/TabNav';
+import { Footer } from './components/Footer';
+import { Clock } from './components/Clock';
+import { AgentGrid } from './components/operations/AgentGrid';
+import { MissionChecklist } from './components/operations/MissionChecklist';
+import { InfraPanel } from './components/operations/InfraPanel';
+import { SessionTimeline } from './components/operations/SessionTimeline';
+import { agents, missions, infrastructure, sessionTimeline } from './data';
+
+// Tab content components
+function OperationsTab() {
+  return (
+    <div className="p-6 space-y-6">
+      {/* Header */}
+      <div className="flex items-baseline gap-3">
+        <h2 className="text-2xl font-bold text-gold tracking-wide">OPERATIONS</h2>
+        <span className="text-xs text-muted uppercase tracking-widest">
+          COMMAND CENTER
+        </span>
+      </div>
+
+      {/* Agent Status Grid */}
+      <section>
+        <h3 className="text-xs text-muted uppercase tracking-widest mb-3">
+          Agent Status
+        </h3>
+        <AgentGrid agents={agents} />
+      </section>
+
+      <div className="grid grid-cols-2 gap-6">
+        {/* Mission Checklist */}
+        <section>
+          <h3 className="text-xs text-muted uppercase tracking-widest mb-3">
+            Active Missions
+          </h3>
+          <MissionChecklist missions={missions} />
+        </section>
+
+        {/* Session Timeline */}
+        <section>
+          <h3 className="text-xs text-muted uppercase tracking-widest mb-3">
+            Session Activity
+          </h3>
+          <div className="bg-surface border border-border rounded-lg p-4 max-h-[400px] overflow-y-auto">
+            <SessionTimeline entries={sessionTimeline} />
+          </div>
+        </section>
+      </div>
+
+      {/* Infrastructure Panel */}
+      <section>
+        <h3 className="text-xs text-muted uppercase tracking-widest mb-3">
+          Infrastructure Health
+        </h3>
+        <InfraPanel infrastructure={infrastructure} />
+      </section>
+    </div>
+  );
+}
+
+function KnowledgeTab() {
+  return (
+    <div className="p-8">
+      <h2 className="text-2xl font-bold text-gold mb-4">Knowledge Base</h2>
+      <p className="text-dim">Charts, stats, watchlist coming soon...</p>
+    </div>
+  );
+}
+
+function ContentTab() {
+  return (
+    <div className="p-8">
+      <h2 className="text-2xl font-bold text-gold mb-4">Content Pipeline</h2>
+      <p className="text-dim">Kanban board, schedule coming soon...</p>
+    </div>
+  );
+}
+
+function LaunchTab() {
+  return (
+    <div className="p-8">
+      <h2 className="text-2xl font-bold text-gold mb-4">Quick Launch</h2>
+      <p className="text-dim">Link grid coming soon...</p>
+    </div>
+  );
+}
+
+const tabs = {
+  operations: OperationsTab,
+  knowledge: KnowledgeTab,
+  content: ContentTab,
+  launch: LaunchTab,
+};
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
-  }
+  const [activeTab, setActiveTab] = useState<TabId>('operations');
+  const TabContent = tabs[activeTab];
 
   return (
-    <main className="container">
-      <h1>Welcome to Tauri + React</h1>
+    <div className="h-screen w-screen flex flex-col bg-bg text-text overflow-hidden">
+      <TitleBar />
 
-      <div className="row">
-        <a href="https://vite.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="flex items-center justify-between px-6 h-12 bg-surface border-b border-border">
+        <TabNav activeTab={activeTab} onTabChange={setActiveTab} />
+        <Clock />
       </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
 
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
-    </main>
+      <div className="flex-1 overflow-hidden relative">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 overflow-auto"
+          >
+            <TabContent />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      <Footer />
+    </div>
   );
 }
 
