@@ -30,7 +30,7 @@ export function SourcesBar({ data }: SourcesBarProps) {
               borderRadius: '6px',
               color: '#E2E8F0',
             }}
-            formatter={(value: number) => [`${value} chunks`, '']}
+            formatter={(value) => [`${value} chunks`, '']}
           />
           <Bar dataKey="chunks" fill="#2C5282" radius={[0, 4, 4, 0]} />
         </BarChart>

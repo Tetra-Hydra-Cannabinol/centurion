@@ -10,8 +10,8 @@ interface LaunchLinkProps {
 
 export function LaunchLink({ icon: Icon, label, url, index }: LaunchLinkProps) {
   const handleClick = async () => {
-    const { shell } = await import('@tauri-apps/plugin-shell');
-    await shell.open(url);
+    const { open } = await import('@tauri-apps/plugin-shell');
+    await open(url);
   };
 
   return (

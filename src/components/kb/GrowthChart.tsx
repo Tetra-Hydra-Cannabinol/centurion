@@ -33,7 +33,7 @@ export function GrowthChart({ data }: GrowthChartProps) {
               borderRadius: '6px',
               color: '#E2E8F0',
             }}
-            formatter={(value: number) => [`${value.toLocaleString()} chunks`, '']}
+            formatter={(value) => [`${Number(value).toLocaleString()} chunks`, '']}
           />
           <Area
             type="monotone"

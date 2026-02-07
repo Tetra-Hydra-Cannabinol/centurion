@@ -30,7 +30,7 @@ export function ChunkDonut({ data }: ChunkDonutProps) {
               borderRadius: '6px',
               color: '#E2E8F0',
             }}
-            formatter={(value: number) => [`${value} chunks`, '']}
+            formatter={(value) => [`${value} chunks`, '']}
           />
           <Legend
             verticalAlign="bottom"
