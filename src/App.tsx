@@ -8,7 +8,24 @@ import { AgentGrid } from './components/operations/AgentGrid';
 import { MissionChecklist } from './components/operations/MissionChecklist';
 import { InfraPanel } from './components/operations/InfraPanel';
 import { SessionTimeline } from './components/operations/SessionTimeline';
-import { agents, missions, infrastructure, sessionTimeline } from './data';
+import { ChunkDonut } from './components/kb/ChunkDonut';
+import { GrowthChart } from './components/kb/GrowthChart';
+import { SourcesBar } from './components/kb/SourcesBar';
+import { AnimatedStat } from './components/kb/AnimatedStat';
+import { YouTubeWatchlist } from './components/kb/YouTubeWatchlist';
+import { IngestionLog } from './components/kb/IngestionLog';
+import {
+  agents,
+  missions,
+  infrastructure,
+  sessionTimeline,
+  kbStats,
+  categoryChunks,
+  growthTimeline,
+  topSources,
+  youtubeChannels,
+  ingestionLog,
+} from './data';
 
 // Tab content components
 function OperationsTab() {
@@ -63,9 +80,70 @@ function OperationsTab() {
 
 function KnowledgeTab() {
   return (
-    <div className="p-8">
-      <h2 className="text-2xl font-bold text-gold mb-4">Knowledge Base</h2>
-      <p className="text-dim">Charts, stats, watchlist coming soon...</p>
+    <div className="p-6 space-y-6">
+      {/* Header with Stats */}
+      <div>
+        <div className="flex items-baseline gap-3 mb-4">
+          <h2 className="text-2xl font-bold text-gold tracking-wide">KNOWLEDGE BASE</h2>
+          <span className="text-xs text-muted uppercase tracking-widest">
+            SEMANTIC SEARCH SYSTEM
+          </span>
+        </div>
+
+        <div className="grid grid-cols-4 gap-4 mb-6">
+          <AnimatedStat value={kbStats.totalChunks} label="Total Chunks" />
+          <AnimatedStat value={kbStats.totalSources} label="Sources" />
+          <AnimatedStat value={kbStats.categories} label="Categories" />
+          <div className="text-center">
+            <div className="text-2xl font-medium text-slate font-mono mb-1">
+              {kbStats.lastUpdate}
+            </div>
+            <div className="text-xs text-muted uppercase tracking-widest">Last Update</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-6">
+        {/* Category Distribution */}
+        <section className="bg-surface border border-border rounded-lg p-4">
+          <h3 className="text-xs text-muted uppercase tracking-widest mb-3">
+            Category Distribution
+          </h3>
+          <ChunkDonut data={categoryChunks} />
+        </section>
+
+        {/* Growth Timeline */}
+        <section className="bg-surface border border-border rounded-lg p-4">
+          <h3 className="text-xs text-muted uppercase tracking-widest mb-3">
+            KB Growth Timeline
+          </h3>
+          <GrowthChart data={growthTimeline} />
+        </section>
+      </div>
+
+      {/* Top Sources */}
+      <section className="bg-surface border border-border rounded-lg p-4">
+        <h3 className="text-xs text-muted uppercase tracking-widest mb-3">
+          Top 10 Sources by Chunk Count
+        </h3>
+        <SourcesBar data={topSources} />
+      </section>
+
+      {/* YouTube Watchlist */}
+      <section>
+        <h3 className="text-xs text-muted uppercase tracking-widest mb-3">
+          YouTube Watchlist
+        </h3>
+        <YouTubeWatchlist channels={youtubeChannels} />
+      </section>
+
+      {/* Recent Ingestion Log */}
+      <section>
+        <h3 className="text-xs text-muted uppercase tracking-widest mb-3">
+          Recent Ingestion Activity
+        </h3>
+        <IngestionLog entries={ingestionLog} />
+      </section>
     </div>
   );
 }
