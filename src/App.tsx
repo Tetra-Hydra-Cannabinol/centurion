@@ -14,6 +14,9 @@ import { SourcesBar } from './components/kb/SourcesBar';
 import { AnimatedStat } from './components/kb/AnimatedStat';
 import { YouTubeWatchlist } from './components/kb/YouTubeWatchlist';
 import { IngestionLog } from './components/kb/IngestionLog';
+import { KanbanBoard } from './components/content/KanbanBoard';
+import { LinkedInSchedule } from './components/content/LinkedInSchedule';
+import { WordPressStatus } from './components/content/WordPressStatus';
 import {
   agents,
   missions,
@@ -25,6 +28,9 @@ import {
   topSources,
   youtubeChannels,
   ingestionLog,
+  articles,
+  publishSchedule,
+  wordPressHealth,
 } from './data';
 
 // Tab content components
@@ -150,9 +156,40 @@ function KnowledgeTab() {
 
 function ContentTab() {
   return (
-    <div className="p-8">
-      <h2 className="text-2xl font-bold text-gold mb-4">Content Pipeline</h2>
-      <p className="text-dim">Kanban board, schedule coming soon...</p>
+    <div className="p-6 space-y-6">
+      {/* Header */}
+      <div className="flex items-baseline gap-3">
+        <h2 className="text-2xl font-bold text-gold tracking-wide">CONTENT PIPELINE</h2>
+        <span className="text-xs text-muted uppercase tracking-widest">
+          EDITORIAL WORKFLOW
+        </span>
+      </div>
+
+      {/* Kanban Board */}
+      <section>
+        <h3 className="text-xs text-muted uppercase tracking-widest mb-3">
+          Article Status Board
+        </h3>
+        <KanbanBoard articles={articles} />
+      </section>
+
+      <div className="grid grid-cols-2 gap-6">
+        {/* LinkedIn Schedule */}
+        <section>
+          <h3 className="text-xs text-muted uppercase tracking-widest mb-3">
+            LinkedIn Publishing Schedule
+          </h3>
+          <LinkedInSchedule schedule={publishSchedule} />
+        </section>
+
+        {/* WordPress Status */}
+        <section>
+          <h3 className="text-xs text-muted uppercase tracking-widest mb-3">
+            Site Health
+          </h3>
+          <WordPressStatus status={wordPressHealth} />
+        </section>
+      </div>
     </div>
   );
 }

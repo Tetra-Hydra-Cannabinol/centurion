@@ -248,3 +248,48 @@ export const ingestionLog: IngestionEntry[] = [
   { id: 'i4', timestamp: '19:58', source: 'awesome-nlp resources', chunks: 203, category: 'nlp_resources' },
   { id: 'i5', timestamp: '19:52', source: 'rag-techniques notebooks', chunks: 178, category: 'rag_techniques' },
 ];
+
+// Content Pipeline data types
+export interface Article {
+  id: string;
+  title: string;
+  wordCount: number;
+  date: string;
+  status: 'draft' | 'review' | 'ready' | 'published';
+}
+
+export interface PublishDay {
+  date: string;
+  day: string;
+  hasPost: boolean;
+}
+
+// Content Mock data
+export const articles: Article[] = [
+  { id: 'a1', title: 'Building AI Agents with Claude Code', wordCount: 2450, date: '2026-02-10', status: 'draft' },
+  { id: 'a2', title: 'RAG Techniques Deep Dive', wordCount: 3200, date: '2026-02-12', status: 'draft' },
+  { id: 'a3', title: 'Prompt Engineering Patterns', wordCount: 1800, date: '2026-02-08', status: 'review' },
+  { id: 'a4', title: 'Context Engineering with Karpathy', wordCount: 2100, date: '2026-02-09', status: 'review' },
+  { id: 'a5', title: 'Tauri vs Electron: Performance', wordCount: 2800, date: '2026-02-07', status: 'ready' },
+  { id: 'a6', title: 'Knowledge Base Architecture', wordCount: 3400, date: '2026-02-05', status: 'ready' },
+  { id: 'a7', title: 'The Rise of Engineered Intelligence', wordCount: 2600, date: '2026-01-28', status: 'published' },
+  { id: 'a8', title: 'Agent Orchestration Patterns', wordCount: 3100, date: '2026-01-24', status: 'published' },
+];
+
+export const publishSchedule: PublishDay[] = [
+  { date: '2026-02-10', day: 'Mon', hasPost: false },
+  { date: '2026-02-11', day: 'Tue', hasPost: true },
+  { date: '2026-02-12', day: 'Wed', hasPost: false },
+  { date: '2026-02-13', day: 'Thu', hasPost: true },
+  { date: '2026-02-14', day: 'Fri', hasPost: false },
+  { date: '2026-02-15', day: 'Sat', hasPost: false },
+  { date: '2026-02-16', day: 'Sun', hasPost: false },
+];
+
+export const wordPressHealth = {
+  status: 'operational' as const,
+  uptime: '99.8%',
+  lastBackup: '4 hours ago',
+  plugins: 12,
+  activeTheme: 'Trajanus Pro',
+};
