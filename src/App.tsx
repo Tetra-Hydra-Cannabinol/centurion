@@ -17,6 +17,7 @@ import { IngestionLog } from './components/kb/IngestionLog';
 import { KanbanBoard } from './components/content/KanbanBoard';
 import { LinkedInSchedule } from './components/content/LinkedInSchedule';
 import { WordPressStatus } from './components/content/WordPressStatus';
+import { LinkGrid } from './components/launch/LinkGrid';
 import {
   agents,
   missions,
@@ -196,9 +197,17 @@ function ContentTab() {
 
 function LaunchTab() {
   return (
-    <div className="p-8">
-      <h2 className="text-2xl font-bold text-gold mb-4">Quick Launch</h2>
-      <p className="text-dim">Link grid coming soon...</p>
+    <div className="p-6 space-y-6">
+      {/* Header */}
+      <div className="flex items-baseline gap-3">
+        <h2 className="text-2xl font-bold text-gold tracking-wide">QUICK LAUNCH</h2>
+        <span className="text-xs text-muted uppercase tracking-widest">
+          INSTANT ACCESS PANEL
+        </span>
+      </div>
+
+      {/* Link Grid */}
+      <LinkGrid />
     </div>
   );
 }
